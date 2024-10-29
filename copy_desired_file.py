@@ -84,10 +84,12 @@ class CopyDesiredFile:
 
             if self.path_check(source_folder, desired_folder_name, output_folder):
                 # Disable button during processing
-                self.UI_component["convert_button"].config(text="Processing...", state=tk.DISABLED)
+                self.UI_component["convert_button"].config(text= "Processing...", state=tk.DISABLED)
+                self.root.update()
                 self.find_and_copy_folders(source_folder, desired_folder_name, output_folder)
-                # Re-enable button after completion
-                self.UI_component["convert_button"].config(text="Convert", state=tk.NORMAL)
+            # Re-enable button after completion
+            self.UI_component["convert_button"].config(text="Convert", state=tk.NORMAL)
+            self.root.update()
 
         self.UI_component["convert_button"].config(command=on_convert)
 
