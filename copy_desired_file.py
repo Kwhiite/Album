@@ -11,8 +11,8 @@ class CopyDesiredFile:
 
     def setup_UI(self):
         # Input folder
-        self.create_label_entry("Input Folder:", 0)
-        input_folder_entry = self.create_entry(0)
+        self.create_label_entry("Source_folder:", 0)
+        source_folder_entry = self.create_entry(0)
 
         # Desired folder name
         self.create_label_entry("Desired Folder Name:", 1)
@@ -31,7 +31,7 @@ class CopyDesiredFile:
         quit_button.grid(row=3, column=2, rowspan=2, padx=5, pady=10, sticky="e")
 
         self.UI_component = {
-            "input_folder_entry": input_folder_entry,
+            "source_folder_entry": source_folder_entry,
             "desired_folder_entry": desired_folder_entry,
             "output_folder_entry": output_folder_entry,
             "convert_button": convert_button,
@@ -59,12 +59,12 @@ class CopyDesiredFile:
                         dest_file = dest_folder / file.name
                         shutil.copy2(file, dest_file)
 
-    def path_check(self, input_folder, desired_folder, output_folder):
-        input_folder = Path(input_folder)
+    def path_check(self, source_folder, desired_folder, output_folder):
+        source_folder = Path(source_folder)
         output_folder = Path(output_folder)
 
-        if not input_folder.is_dir():
-            messagebox.showerror("Error", f"{input_folder} is not a valid path. Please enter a valid directory.")
+        if not source_folder.is_dir():
+            messagebox.showerror("Error", f"{source_folder} is not a valid path. Please enter a valid directory.")
             return False
         if not desired_folder:
             messagebox.showerror("Error", "Desired folder name is empty.")
@@ -78,14 +78,14 @@ class CopyDesiredFile:
 
     def start_app(self):
         def on_convert():
-            input_folder = self.UI_component["input_folder_entry"].get().strip()
+            source_folder = self.UI_component["source_folder_entry"].get().strip()
             output_folder = self.UI_component["output_folder_entry"].get().strip()
             desired_folder_name = self.UI_component["desired_folder_entry"].get().strip()
 
-            if self.path_check(input_folder, desired_folder_name, output_folder):
+            if self.path_check(source_folder, desired_folder_name, output_folder):
                 # Disable button during processing
                 self.UI_component["convert_button"].config(text="Processing...", state=tk.DISABLED)
-                self.find_and_copy_folders(input_folder, desired_folder_name, output_folder)
+                self.find_and_copy_folders(source_folder, desired_folder_name, output_folder)
                 # Re-enable button after completion
                 self.UI_component["convert_button"].config(text="Convert", state=tk.NORMAL)
 
